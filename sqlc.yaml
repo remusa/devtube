@@ -1,0 +1,11 @@
+version: '2'
+sql:
+  - engine: "sqlite"
+    schema: "db/schema"
+    queries: "db/queries"
+    gen:
+      go:
+        out: "internal/database"
+    database:
+      # uri: "${DATABASE_URL}"
+      uri: "database.db"

@@ -5,10 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "go build && devtube.exe",
-    "vendor": "go mod vendor",
+    "start": "go build -o out.exe && out.exe",
     "tidy": "go mod tidy",
-    "format": "go fmt"
+    "vendor": "go mod vendor",
+    "format": "go fmt",
+    "db:up": "goose -dir db/schema sqlite \"database.db\" up",
+    "db:down": "goose -dir db/schema sqlite \"database.db\" down",
+    "db:gen": "sqlc generate"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
 	"os"
@@ -8,6 +9,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
@@ -32,7 +34,7 @@ func main() {
 	}))
 
 	v1Router := chi.NewRouter()
-	v1Router.Get("/healthz", handlerReadiness)
+	v1Router.Get("/ready", handlerReadiness)
 	v1Router.Get("/err", handlerErr)
 
 	router.Mount("/v1", v1Router)
@@ -47,4 +49,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	DATABASE_URL := os.Getenv("DATABASE_URL")
+	db, err := sql.Open("sqlite3", DATABASE_URL)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	defer db.Close()
 }

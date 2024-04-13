@@ -1,0 +1,11 @@
+-- +goose up
+CREATE TABLE IF NOT EXISTS users (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  uuid        TEXT NOT NULL,
+  name        TEXT NOT NULL,
+  created_at  DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updated_at  DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+-- +goose down
+DROP TABLE users;
