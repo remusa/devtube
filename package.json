@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "go build && devtube.exe"
+    "start": "go build && devtube.exe",
+    "vendor": "go mod vendor",
+    "tidy": "go mod tidy"
   },
   "repository": {
     "type": "git",
