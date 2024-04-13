@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "go build -o out && ./out",
+    "start:win": "go build -o out.exe && out.exe",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "go build -o out.exe && out.exe",
     "tidy": "go mod tidy",
     "vendor": "go mod vendor",
     "format": "go fmt",
-    "db:up": "goose -dir db/schema postgres \"postgres://postgres:postgres@localhost:5432/devtube\" up",
-    "db:down": "goose -dir db/schema postgres \"postgres://postgres:postgres@localhost:5432/devtube\" down",
+    "db:lite:up": "goose -dir db/schema sqlite database.db up",
+    "db:lite:down": "goose -dir db/schema sqlite database.db down",
+    "db:psql:up": "goose -dir db/schema postgres \"postgres://postgres:postgres@localhost:5432/devtube\" up",
+    "db:psql:down": "goose -dir db/schema postgres \"postgres://postgres:postgres@localhost:5432/devtube\" down",
     "db:gen": "sqlc generate"
   },
   "repository": {

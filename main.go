@@ -7,8 +7,8 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
-
+	// _ "github.com/lib/pq"
+	_ "github.com/mattn/go-sqlite3"
 	// "github.com/remusa/devtube/internal/database"
 )
 
@@ -24,18 +24,19 @@ func main() {
 		log.Fatal("PORT not found in environment")
 	}
 
-	DATABASE_URL := os.Getenv("DATABASE_URL")
-	if DATABASE_URL == "" {
-		log.Fatal("DATABASE_URL not found in environment")
+	DB_URL := os.Getenv("DB_URL")
+	if DB_URL == "" {
+		log.Fatal("DB_URL not found in environment")
 	}
-	log.Printf("Connected to database: %v", DATABASE_URL)
+	log.Printf("Connected to database: %v", DB_URL)
 
-	_, err := sql.Open("postgres", DATABASE_URL)
+	db, err := sql.Open("sqlite3", DB_URL)
 	if err != nil {
 		log.Fatal(err)
 	}
-	// dbQueries := database.New(db)
+	defer db.Close()
 
+	// dbQueries := database.New(db)
 	// apiCfg := apiConfig{
 	// 	DB: dbQueries,
 	// }

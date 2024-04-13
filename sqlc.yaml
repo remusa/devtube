@@ -1,11 +1,10 @@
 version: '2'
 sql:
-  - engine: "postgresql"
+  - engine: "sqlite"
     queries: "db/queries"
     schema: "db/schema"
     gen:
       go:
         out: "internal/database"
     database:
-      # uri: "${DATABASE_URL}"
-      uri: "postgres://postgres:postgres@localhost:5432/devtube"
+      uri: ${DB_URL}
