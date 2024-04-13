@@ -7,14 +7,14 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	// _ "github.com/lib/pq"
-	_ "github.com/mattn/go-sqlite3"
-	// "github.com/remusa/devtube/internal/database"
+	_ "github.com/lib/pq"
+
+	"github.com/remusa/devtube/internal/database"
 )
 
-// type apiConfig struct {
-// 	DB *database.Queries
-// }
+type apiConfig struct {
+	DB *database.Queries
+}
 
 func main() {
 	godotenv.Load(".env")
@@ -30,16 +30,15 @@ func main() {
 	}
 	log.Printf("Connected to database: %v", DB_URL)
 
-	db, err := sql.Open("sqlite3", DB_URL)
+	db, err := sql.Open("postgres", DB_URL)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
 
-	// dbQueries := database.New(db)
-	// apiCfg := apiConfig{
-	// 	DB: dbQueries,
-	// }
+	dbQueries := database.New(db)
+	apiCfg := apiConfig{
+		DB: dbQueries,
+	}
 
 	mux := http.NewServeMux()
 
