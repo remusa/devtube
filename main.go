@@ -9,15 +9,35 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/lib/pq"
+	// "github.com/remusa/devtube/internal/database"
 )
+
+type apiConfig struct {
+	DB *database.Queries
+}
 
 func main() {
 	godotenv.Load(".env")
 
-	portString := os.Getenv("PORT")
-	if portString == "" {
+	PORT := os.Getenv("PORT")
+	if PORT == "" {
 		log.Fatal("PORT not found in environment")
+	}
+
+	DATABASE_URL := os.Getenv("DATABASE_URL")
+	if DATABASE_URL == "" {
+		log.Fatal("DATABASE_URL not found in environment")
+	}
+
+	db, err := sql.Open("postgres", DATABASE_URL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	dbQueries := database.New(db)
+
+	apiCfg := apiConfig{
+		DB: dbQueries,
 	}
 
 	router := chi.NewRouter()
@@ -41,21 +61,13 @@ func main() {
 
 	server := &http.Server{
 		Handler: router,
-		Addr:    ":" + portString,
+		Addr:    ":" + PORT,
 	}
 
-	log.Printf("Server started on port %v", portString)
+	log.Printf("Server started on port %v", PORT)
 	err := server.ListenAndServe()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	DATABASE_URL := os.Getenv("DATABASE_URL")
-	db, err := sql.Open("sqlite3", DATABASE_URL)
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
-
-	defer db.Close()
 }

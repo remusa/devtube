@@ -1,10 +1,9 @@
 -- +goose up
 CREATE TABLE IF NOT EXISTS users (
-  id          INTEGER PRIMARY KEY AUTOINCREMENT,
-  uuid        TEXT NOT NULL,
+  id          UUID PRIMARY KEY,
   name        TEXT NOT NULL,
-  created_at  DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  updated_at  DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+  created_at  TIMESTAMP NOT NULL,
+  updated_at  TIMESTAMP NOT NULL
 );
 
 -- +goose down
