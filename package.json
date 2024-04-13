@@ -1,0 +1,20 @@
+{
+  "name": "devtube",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "go build && devtube.exe"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/remusa/devtube.git"
+  },
+  "author": "remusa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/remusa/devtube/issues"
+  },
+  "homepage": "https://github.com/remusa/devtube#readme"
+}
