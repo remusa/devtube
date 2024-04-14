@@ -16,8 +16,8 @@ func (apiCfg *apiConfig) handlerFeedsCreate(w http.ResponseWriter, r *http.Reque
 		Name string `json:"name"`
 		Url  string `json:"url"`
 	}
-
 	decoder := json.NewDecoder(r.Body)
+
 	params := parameters{}
 	err := decoder.Decode(&params)
 	if err != nil {

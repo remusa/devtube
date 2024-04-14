@@ -1,21 +1,15 @@
 meta {
-  name: getUser
+  name: deleteFeedFollows
   type: http
-  seq: 4
+  seq: 11
 }
 
-get {
-  url: http://localhost:8080/v1/users
-  body: json
+delete {
+  url: http://localhost:8080/v1/feed_follows/e940a442-a5c9-471a-8447-fad5bfee2851
+  body: none
   auth: none
 }
 
 headers {
   Authorization: ApiKey 7caee02ae58de2ec6b4f7bd22b5bdc2023e09a724c207cceaa149743af1b79d9
-}
-
-body:json {
-  {
-    "name": "Rob"
-  }
 }

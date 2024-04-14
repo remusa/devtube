@@ -1,11 +1,11 @@
 meta {
-  name: getFeed
+  name: createFeedFollow
   type: http
-  seq: 6
+  seq: 8
 }
 
-get {
-  url: http://localhost:8080/v1/feeds
+post {
+  url: http://localhost:8080/v1/feed_follows
   body: json
   auth: none
 }
@@ -16,6 +16,6 @@ headers {
 
 body:json {
   {
-    "id": "3d8270fb-25dd-4d4d-bc24-bb8ad1691ca0"
+    "feed_id": "3d8270fb-25dd-4d4d-bc24-bb8ad1691ca0"
   }
 }
