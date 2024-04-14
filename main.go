@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
@@ -42,6 +43,8 @@ func main() {
 		DB: dbQueries,
 	}
 
+	go startScraping(dbQueries, 10, time.Minute)
+
 	router := chi.NewRouter()
 
 	router.Use(cors.Handler(cors.Options{
@@ -60,7 +63,7 @@ func main() {
 
 	v1Router.Post("/feeds", apiCfg.middlewareAuth(apiCfg.handlerFeedsCreate))
 	v1Router.Get("/feeds", apiCfg.handlerFeedsGet)
-	v1Router.Delete("/feeds/{feedID}", apiCfg.middlewareAuth(apiCfg.handlerFeedDelete))
+	v1Router.Delete("/feeds/{feedID}", apiCfg.middlewareAuth(apiCfg.handlerFeedsDelete))
 
 	v1Router.Post("/feed_follows", apiCfg.middlewareAuth(apiCfg.handlerFeedFollowsCreate))
 	v1Router.Get("/feed_follows", apiCfg.middlewareAuth(apiCfg.handlerFeedFollowsGet))

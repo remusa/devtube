@@ -73,7 +73,7 @@ func (apiCfg *apiConfig) handlerFeedsGet(w http.ResponseWriter, r *http.Request)
 	respondWithJSON(w, http.StatusCreated, databaseFeedsToFeeds(feeds))
 }
 
-func (apiCfg *apiConfig) handlerFeedDelete(w http.ResponseWriter, r *http.Request, user database.User) {
+func (apiCfg *apiConfig) handlerFeedsDelete(w http.ResponseWriter, r *http.Request, user database.User) {
 	feedIDStr := chi.URLParam(r, "feedID")
 	feedID, err := uuid.Parse(feedIDStr)
 	if err != nil {
