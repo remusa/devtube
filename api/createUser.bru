@@ -1,0 +1,17 @@
+meta {
+  name: createUser
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8080/v1/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "test"
+  }
+}

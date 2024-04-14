@@ -10,8 +10,8 @@
     "tidy": "go mod tidy",
     "vendor": "go mod vendor",
     "format": "go fmt",
-    "db:sqlite:up": "goose -dir db/schema sqlite database.db up",
-    "db:sqlite:down": "goose -dir db/schema sqlite database.db down",
+    "db:sqlite:up": "goose -dir db/schema sqlite $DB_URL up",
+    "db:sqlite:down": "goose -dir db/schema sqlite $DB_URL down",
     "db:postgres:up": "goose -dir db/schema postgres $DB_URL up",
     "db:postgres:down": "goose -dir db/schema postgres $DB_URL down",
     "db:gen": "sqlc generate"

@@ -34,8 +34,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	dbQueries := database.New(db)
+
 	apiCfg := apiConfig{
 		DB: dbQueries,
 	}
@@ -44,6 +44,8 @@ func main() {
 
 	mux.HandleFunc("GET /v1/ready", handlerReadiness)
 	mux.HandleFunc("GET /v1/err", handlerErr)
+
+	mux.HandleFunc("POST /v1/users", apiCfg.handlerUsersCreate)
 
 	corsMux := corsMiddleware(mux)
 
