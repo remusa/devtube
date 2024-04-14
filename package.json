@@ -10,6 +10,7 @@
     "tidy": "go mod tidy",
     "vendor": "go mod vendor",
     "format": "go fmt",
+    "setup": "npm run db:gen && npm run tidy && npm run vendor && npm run format",
     "db:sqlite:up": "goose -dir db/schema sqlite $DB_URL up",
     "db:sqlite:down": "goose -dir db/schema sqlite $DB_URL down",
     "db:postgres:up": "goose -dir db/schema postgres $DB_URL up",
