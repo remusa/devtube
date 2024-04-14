@@ -13,6 +13,7 @@
     "format": "go fmt",
     "db:sqlite:up": "goose -dir db/schema sqlite $DB_URL up",
     "db:sqlite:down": "goose -dir db/schema sqlite $DB_URL down",
+    "db:postgres:start": "sudo service postgresql start",
     "db:postgres:reset": "npm run db:postgres:down && npm run db:postgres:up",
     "db:postgres:up": "goose -dir db/schema postgres $DB_URL up",
     "db:postgres:down": "goose -dir db/schema postgres $DB_URL down",
