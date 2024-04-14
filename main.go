@@ -6,7 +6,10 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
+
 	_ "github.com/lib/pq"
 
 	"github.com/remusa/devtube/internal/database"
@@ -19,18 +22,17 @@ type apiConfig struct {
 func main() {
 	godotenv.Load(".env")
 
-	PORT := os.Getenv("PORT")
-	if PORT == "" {
-		log.Fatal("PORT not found in environment")
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("PORT environment variable is not set")
 	}
 
-	DB_URL := os.Getenv("DB_URL")
-	if DB_URL == "" {
-		log.Fatal("DB_URL not found in environment")
+	dbURL := os.Getenv("DB_URL")
+	if dbURL == "" {
+		log.Fatal("DB_URL environment variable is not set")
 	}
-	log.Printf("Connected to database: %v", DB_URL)
 
-	db, err := sql.Open("postgres", DB_URL)
+	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -40,20 +42,30 @@ func main() {
 		DB: dbQueries,
 	}
 
-	mux := http.NewServeMux()
+	router := chi.NewRouter()
 
-	mux.HandleFunc("GET /v1/ready", handlerReadiness)
-	mux.HandleFunc("GET /v1/err", handlerErr)
+	router.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"https://*", "http://*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"*"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300,
+	}))
 
-	mux.HandleFunc("POST /v1/users", apiCfg.handlerUsersCreate)
+	v1Router := chi.NewRouter()
 
-	corsMux := corsMiddleware(mux)
+	v1Router.Post("/users", apiCfg.handlerUsersCreate)
 
-	server := &http.Server{
-		Addr:    ":" + PORT,
-		Handler: corsMux,
+	v1Router.Get("/ready", handlerReadiness)
+	v1Router.Get("/err", handlerErr)
+
+	router.Mount("/v1", v1Router)
+	srv := &http.Server{
+		Addr:    ":" + port,
+		Handler: router,
 	}
 
-	log.Printf("Server started on port %v\n", PORT)
-	log.Fatal(server.ListenAndServe())
+	log.Printf("Serving on port: %s\n", port)
+	log.Fatal(srv.ListenAndServe())
 }

@@ -11,7 +11,7 @@ import (
 
 func (cfg *apiConfig) handlerUsersCreate(w http.ResponseWriter, r *http.Request) {
 	type parameters struct {
-		Name string
+		Name string `json:"name"`
 	}
 
 	decoder := json.NewDecoder(r.Body)
@@ -23,16 +23,15 @@ func (cfg *apiConfig) handlerUsersCreate(w http.ResponseWriter, r *http.Request)
 	}
 
 	user, err := cfg.DB.CreateUser(r.Context(), database.CreateUserParams{
-		Column1: uuid.New(),
-		Column2: params.Name,
-		Column3: time.Now().UTC(),
-		Column4: time.Now().UTC(),
+		ID:        uuid.New(),
+		CreatedAt: time.Now().UTC(),
+		UpdatedAt: time.Now().UTC(),
+		Name:      params.Name,
 	})
-
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Couldn't create user")
 		return
 	}
 
-	respondWithJSON(w, http.StatusCreated, database.CreateUserRow(user))
+	respondWithJSON(w, http.StatusOK, databaseUserToUser(user))
 }
