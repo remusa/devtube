@@ -1,12 +1,12 @@
 meta {
-  name: getFeeds
+  name: deleteFeed
   type: http
-  seq: 6
+  seq: 7
 }
 
-get {
-  url: http://localhost:8080/v1/feeds
-  body: json
+delete {
+  url: http://localhost:8080/v1/feeds/cfe83770-d8b5-465b-b3fd-8613703eec80
+  body: none
   auth: none
 }
 
